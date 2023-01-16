@@ -26,7 +26,22 @@ class DB {
                 }
             } )
         })
-    } 
+    }
+
+    concatConditions( conditions, query ) {
+        if ( Boolean(conditions.length) ) {
+            query += ` where `;
+        }
+
+        Array.from(conditions).forEach( q => {
+            query += q;
+            if ( Array.from(conditions).indexOf(q) != conditions.length - 1 ) {
+                query += " and ";
+            }
+        } )
+
+        return query;
+    }
 }
 
 var db = new DB() ;

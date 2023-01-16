@@ -9,7 +9,7 @@ function Protect( request, response, next ) {
         };
         next();
     } catch (error) {
-        response.status(200).json({ status : "error" });
+        response.status(200).json({ status : "timeout" });
     }
 }
 
