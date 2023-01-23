@@ -7,6 +7,16 @@ function Protect( request, response, next ) {
             email : verify.email,
             password :verify.password
         };
+        if ( parseInt(verify.exp) - 900000 > Date.now() ) {
+            response.cookie("auth", GenerateToken( {
+                email : verify.email,
+                password : verify.password,
+                name : verify.name,
+                created_at : verify.created_at
+            } ), {
+                httpOnly : true
+            });
+        }
         next();
     } catch (error) {
         response.status(200).json({ status : "timeout" });

@@ -15,6 +15,23 @@ function getEvents( request, response ) {
 
 }
 
+function getUpcomingEvents( request, response ) {
+
+    let query = `select * from \`events\` where \`when\` >= CURDATE() order by \`when\` desc`;
+
+    db.query( query )
+        .then( res => {
+            response.status(200).json(res);
+        } )
+        .catch( err => {
+            console.log(err);
+            response.status(400).send();
+        } );
+
+}
+
+
+
 function addEvent( request, response ) {
 
     let data = request.body;
@@ -72,4 +89,4 @@ function deleteEvent( request, response ) {
 
 }
 
-module.exports = { getEvents, addEvent, updateEvent, deleteEvent };
+module.exports = { getEvents, addEvent, updateEvent, deleteEvent, getUpcomingEvents };

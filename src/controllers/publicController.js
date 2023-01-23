@@ -30,4 +30,18 @@ function fetchEvents( request, response ) {
 
 }
 
-module.exports = { fetchBanners, fetchEvents };
+function fetchUpcomingEvents( request, response ) {
+
+    let query = `select * from \`events\` where \`when\` >= curdate() order by \`when\` desc`;
+
+    db.query( query )
+    .then( res => {
+        response.status(200).json(res);
+    } )
+    .catch( err => {
+        console.log(err);
+        response.status(400).send();
+    } );
+}
+
+module.exports = { fetchBanners, fetchEvents, fetchUpcomingEvents };

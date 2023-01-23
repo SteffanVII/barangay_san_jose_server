@@ -84,7 +84,7 @@ function registerResident( request, response ) {
     console.log(body);
 
     let query = `insert into \`resident\` ( \`resident\`.fname, \`resident\`.lname, \`resident\`.mname, \`resident\`.suffix, \`resident\`.gender, \`resident\`.bdate, \`resident\`.address, \`resident\`.purok, \`resident\`.contact_no, \`resident\`.house_no, \`resident\`.registered, \`resident\`.religion, \`resident\`.email, \`resident\`.birthplace, \`resident\`.civil_status ) values
-                    ( "${body.fname}", "${body.lname}", "${body.mname}", "${body.suffix}", ${body.gender}, ${(body.bdate === '' ? `NULL` : `${body.bdate}`)}, "${body.address}", ${(body.purok === '' ? `NULL` : body.purok)}, "${body.contact}", ${(body.house === '' ? `NULL` : body.house)}, ${body.registered}, "${body.religion}", "${body.email}", "${body.birthplace}", "${body.status}" )`;
+                    ( "${body.fname}", "${body.lname}", "${body.mname}", "${body.suffix}", ${body.gender}, '${(body.bdate === '' ? `NULL` : `${body.bdate}`)}', "${body.address}", ${(body.purok === '' ? `NULL` : body.purok)}, "${body.contact}", ${(body.house === '' ? `NULL` : body.house)}, ${body.registered}, "${body.religion}", "${body.email}", "${body.birthplace}", "${body.status}" )`;
 
     db.query( query )
             .then( res => {
@@ -107,7 +107,7 @@ function updateResident( request, response ) {
                     \`resident\`.mname = "${body.mname}",
                     \`resident\`.suffix = "${body.suffix}",
                     \`resident\`.gender = ${body.gender},
-                    \`resident\`.bdate = '${(body.bdate === '' ? `NULL` : `${body.bdate}`)}',
+                    \`resident\`.bdate = '${(body.bdate === '' ? `NULL` : body.bdate)}',
                     \`resident\`.address = '${body.address}',
                     \`resident\`.purok = ${(body.purok === '' ? `NULL` : body.purok)},
                     \`resident\`.contact_no = "${body.contact}",

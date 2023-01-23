@@ -13,6 +13,7 @@ const { blottersRoute } = require("./routes/blottersRoute");
 const { bannersRoute } = require("./routes/bannersRoute");
 const { publicRoute } = require("./routes/publicRoute");
 const { eventsRoute } = require("./routes/eventsRoute");
+const { receiptRoute } = require("./routes/receiptRoute");
 
 dotenv.config();
 
@@ -36,11 +37,12 @@ app.use( "/blotters", blottersRoute );
 app.use( "/banners", bannersRoute );
 app.use( "/public", publicRoute );
 app.use( "/events", eventsRoute );
+app.use( "/receipts", receiptRoute );
 
-app.use( "/serve", express.static( "C:/Users/Chris/Documents/Projects/Web-Development/jm-thesis/server/public" ) );
+app.use( "/serve", express.static( process.env.STATIC_PATH ) );
 
-app.listen( 5000, () => {
-    console.log("Listening to port : " + 5000 );
+app.listen( process.env.PORT, () => {
+    console.log("Listening to port : " + process.env.PORT );
 } )
 
 const config = {
