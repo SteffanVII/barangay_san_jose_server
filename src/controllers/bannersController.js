@@ -1,26 +1,64 @@
 const { db } = require("../mysqlConnect");
 const fs = require("fs");
+const { bucket } = require("../middlewares/uploads");
+const path = require("path");
 
 function uploadBanner( request, response ) {
 
     let data = request.file;
 
-    console.log(data);
+    try {
+        if ( data ) {
 
-    let query = `insert into \`announcements\` ( \`path\`, \`datetime\`, \`filename\` )
-                    values( "${data.path.replaceAll("\\", "/").replace("public/", "")}",
-                            '${data.datetime.replace("T", " ").replace("Z", "")}',
-                            "${data.filename}"
-                        )`;
+            let datetime = new Date().toISOString();
+            let date = datetime.split("T")[0];
+            let time = datetime.split("T")[1].split(".")[0].replaceAll( ":", "-" );
+            let filename = `${path.parse(data.originalname).name}_${date}_${time}${path.extname(data.originalname)}`;
 
-    db.query( query )
-        .then( res => {
-            response.status(200).json({ message : "OK" });
-        } )
-        .catch( err => {
-            console.log(err);
-            response.status(400).send();
-        } )
+            let blob = bucket.file( filename );
+            let blobstream = blob.createWriteStream({
+                resumable : false
+            });
+
+            blobstream.on( "finish", () => {
+                response.status(200).json({ message : "OK" });
+                let query = `insert into \`announcements\` ( \`path\`, \`datetime\`, \`filename\` )
+                            values( "${process.env.BANNERS_PATH + filename}",
+                                    '${datetime.replace("T", " ").replace("Z", "")}',
+                                    "${filename}"
+                                )`;
+
+                db.query( query )
+                    .then( res => {
+                        response.status(200).json({ message : "OK" });
+                    } )
+                    .catch( err => {
+                        console.log(err);
+                        response.status(400).send();
+                    } )
+                    });
+
+            blobstream.end(data.buffer);
+        }
+    } catch (error) {
+        console.log(error);
+        response.status(400).send();
+    }
+
+    // let query = `insert into \`announcements\` ( \`path\`, \`datetime\`, \`filename\` )
+    //     values( "${data.path.replaceAll("\\", "/").replace("public/", "")}",
+    //             '${datetime.replace("T", " ").replace("Z", "")}',
+    //             "${data.filename}"
+    //         )`;
+
+    // db.query( query )
+    //     .then( res => {
+    //         response.status(200).json({ message : "OK" });
+    //     } )
+    //     .catch( err => {
+    //         console.log(err);
+    //         response.status(400).send();
+    //     } )
 }
 
 function getBanners( request, response ) {
@@ -121,32 +159,63 @@ function deleteBanner( request, response ) {
 
     let data = request.body;
 
+
     let query = `delete from \`announcements\`
                         where id = ${data.id}`;
 
-    fs.unlink( `public\\` + data.path, ( err ) => {
-        db.query( query )
-                .then( res => {
-                    if ( data.live === 1 ) {
-                        return db.query( `select * from \`announcements\` where live = 1 order by pos asc` );
-                    } else {
-                        response.status(200).json({ message : "OK" });
-                    }
-                } )
-                .then( res => {
-                    if ( data.live === 1 ) {
-                        let live = res;
-                        live.forEach( async ( element, index ) => {
-                            await db.query( `update \`announcements\` set pos = ${index + 1} where id = ${element.id}` );
-                        });
-                        response.status(200).json({ message : "OK" });
-                    }
-                } )
-                .catch( err => {
-                    console.log(err);
-                    response.status(400).send();
-                } );
-    });
+    // fs.unlink( `public\\` + data.path, ( err ) => {
+    //     db.query( query )
+    //             .then( res => {
+    //                 if ( data.live === 1 ) {
+    //                     return db.query( `select * from \`announcements\` where live = 1 order by pos asc` );
+    //                 } else {
+    //                     response.status(200).json({ message : "OK" });
+    //                 }
+    //             } )
+    //             .then( res => {
+    //                 if ( data.live === 1 ) {
+    //                     let live = res;
+    //                     live.forEach( async ( element, index ) => {
+    //                         await db.query( `update \`announcements\` set pos = ${index + 1} where id = ${element.id}` );
+    //                     });
+    //                     response.status(200).json({ message : "OK" });
+    //                 }
+    //             } )
+    //             .catch( err => {
+    //                 console.log(err);
+    //                 response.status(400).send();
+    //             } );
+    // });
+
+    bucket.file(data.filename)
+        .delete()
+        .then( res => {
+            db.query( query )
+            .then( res => {
+                if ( data.live === 1 ) {
+                    return db.query( `select * from \`announcements\` where live = 1 order by pos asc` );
+                } else {
+                    response.status(200).json({ message : "OK" });
+                }
+            } )
+            .then( res => {
+                if ( data.live === 1 ) {
+                    let live = res;
+                    live.forEach( async ( element, index ) => {
+                        await db.query( `update \`announcements\` set pos = ${index + 1} where id = ${element.id}` );
+                    });
+                    response.status(200).json({ message : "OK" });
+                }
+            } )
+            .catch( err => {
+                console.log(err);
+                response.status(400).send();
+            } );
+        } )
+        .catch( err => {
+            console.log(err);
+            response.status(400).send();
+        } )
 
 
 }

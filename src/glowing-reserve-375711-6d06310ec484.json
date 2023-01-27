@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "glowing-reserve-375711",
+  "private_key_id": "6d06310ec4844db3de0b08438b491e8b0fb1cee8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQChKkDCD3IdcQWf\n76HpHpsqi9IWQ7dn6E0Z33hFFwbmU61DNQ5U7CsviC1RGJYkT+/6Lfmaqj0y7J2H\n+Am/OHuouos/ZmqdqW7KRDHkXdLNHhkT3IkA+BGJYfq541c9kVU5XWItK6ouScVa\n35ZIC7A4HspX3RSAIIfn8xdlpB6n7avfhXU2JsCW2l6ti4+O3vcEZudcrvQZEu1T\nENhq+KrTEjH6P6VPczA45SlMudQ1BDKeCXCMDqoqClANhHU9kJ5tAZWV3Jqyrvc+\ns1TWDkYz2zAeIxfM3LpphJzz30Fm02wWvTvam6poyt/UmXGcYLSaCYonnMMfmsDv\nPJCtiw6NAgMBAAECggEAAJSNoarkgstGLeGRJksc8o9brI5vzZcQGD25es/aB/MK\nLjm9Lemg1kvUMmmzg8CahNzSZc/m0DcJ1CriYDe8lNXqpH7Ehp/M7zuu3Ipuh7q3\nKSotFhvHBZBJ5Z1jcFmTlS9/68ogjA/xaEtirnYjm0Nqw9wMMB0XSKcEoBtyFWZo\nAUFEYGlaUWG3U1tFZrr2YNv6vdDoC2lOczyFkSMsqDtueMpmsk95F4atlwisSTHL\nnyckZvBkA2nVwWEZOeJ4oQ7t2jh/GocjN/hzN5mx/VVfVX/AtZRlkKRyz0pFNKFc\nRqD0d5KPIAyXQDoKaueqHXUVh2IT6lSqOQxu2TA14QKBgQDXP/FCrRfaKIf08kcO\nKLMq8bxzoep8zRQ5TKlp1rDg4Eo3b/ujx/55F/QxK+5W0k14F5PwGJ1wV+SHHtFG\nJM6XR6zqYAACyfUOfhQ7CFi9sy7M4wD2pA3eSmvc9+1auSatDbF1SL1YdpD/5/rR\n9118ugcsUmlxIjr4UfZkAdGS8QKBgQC/rRmfZ27rH0/kBVlx27WeYdtalZfp6uZx\nk9HuhKuxcsvv9fdYJ2M9Zk3bHezOWlx//2ySU8JCvo+Z288mHeeJfa9y69bA2lRE\n6fN8aMAoI/ArqJy36pFPtu74XMudpwew2Q+QhPL5QFvBPCtwEISl/GIK3/9WRNt3\nPXGueDl9XQKBgGwOiYszYfn+xuHMjqco/2jbmgNikVi9ix2IwrODN6BseFWEPgtm\nZvVbdRcKOsgTIxjanUW21bKELRE4A073Q07miIPQVbEQuZjg6j8IXaQ9w4zPmLg4\ne03Qhn2TaPBWangNm7yJG6TBQOF3D49AYwouSVOSu6Qzzu7CFrL1xsPBAoGBALaK\nFmW9bl+SoVXJVmZdU/hyvyDkaBlIMJAns3zQcmZ6qgdrmlQkppkZrbmoJRZb7c2k\nJfSwuccwjbd8Iynsvs0smgL64Lkm86vxlYV8iMtxdk9Ns3pfdGWTFMAIN417PZLJ\nFM6QHokLJpa/Q6rkwD8HPSOYMSYqS0uig3ohWratAoGBAMEazSGNCBX0K8CXYg8Z\nguU47lMK77omZ86dp/xln6htT7Xm47C4xCMnJniIE0M/HYl7d/A2OTB+vPD6m1UA\nJ+rbFFBhm7avguHidp/888znsUiqOMckAHHQEnbO9OMJwJ4yjMJZP0cTfWVQUI42\nf5YPHinpBpbXujGCZjrbxOeW\n-----END PRIVATE KEY-----\n",
+  "client_email": "san-jose@glowing-reserve-375711.iam.gserviceaccount.com",
+  "client_id": "105408514828468283010",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/san-jose%40glowing-reserve-375711.iam.gserviceaccount.com"
+}

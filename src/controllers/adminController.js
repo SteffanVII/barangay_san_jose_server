@@ -18,14 +18,18 @@ function login( request, response ) {
             if ( res.length > 0 ) {
                 if ( res[0].password == password ) {
                     // Set jwt cookie
-                    response.cookie("auth", GenerateToken(res[0]), {
-                        httpOnly : true
+                    response.cookie("__session", GenerateToken(res[0]), {
+                        httpOnly : true,
+                        sameSite : "None",
+                        secure : true,
+                        path : "/"
                     });
                     // Set Admin cookie
-                    response.cookie("admin", JSON.stringify({
-                        email : res[0].email
-                    }));
-                    response.json({ status : "ok" });
+                    response.cookie("admin", JSON.stringify({email : res[0].email}), {
+                        sameSite : "None",
+                        secure : true
+                    });
+                    response.json({email : res[0].email});
                 } else {
                     response.json({ status : "wrong password" });s
                 }
@@ -65,8 +69,11 @@ function login( request, response ) {
 }
 
 function logout( request, response ) {
-    response.cookie("auth", "", {
-        httpOnly : true
+    response.cookie("__session", "", {
+        httpOnly : true,
+        sameSite : "None",
+        secure : true,
+        path : "/"
     });
     response.cookie ("admin", "");
     response.status(200).send();

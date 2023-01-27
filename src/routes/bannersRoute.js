@@ -1,7 +1,7 @@
 const express = require("express");
 const { uploadBanner, getBanners, updateStatus, deleteBanner, repositionBanners } = require("../controllers/bannersController");
 const { Protect } = require("../middlewares/security");
-const { upload } = require("../middlewares/uploads");
+const { upload, sanjoseBucketUpload } = require("../middlewares/uploads");
 
 const bannersRoute = express.Router();
 

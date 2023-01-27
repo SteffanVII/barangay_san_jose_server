@@ -6,6 +6,7 @@ function fetchBanners( request, response ) {
 
     db.query( query )
         .then( res => {
+            console.log(res);
             response.status(200).json(res);
         } )
         .catch( err => {
