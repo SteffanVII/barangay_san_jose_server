@@ -51,9 +51,7 @@ const config = {
     host : process.env.SERVER_HOST,
     user : process.env.SERVER_USER,
     password : process.env.SERVER_PASSWORD,
-    database : process.env.DATABASE_NAME,
-    connectionTimeout : 30000,
-    socketPath : "/cloudsql/glowing-reserve-375711:asia-east1:sanjose"
+    database : process.env.DATABASE_NAME
 }
 
 db.config(config);
