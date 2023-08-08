@@ -3,19 +3,19 @@ const path = require("path");
 const { default: MulterGoogleCloudStorage } = require("multer-google-storage");
 const { Storage } = require("@google-cloud/storage");
 
-// const diskLocation = multer.diskStorage({
-//     destination : ( req, file, callback ) => {
-//         callback( null, "public/banners" );
-//     },
-//     filename : ( req, file, callback ) => {
-//         let datetime = new Date().toISOString();
-//         let date = datetime.split("T")[0];
-//         let time = datetime.split("T")[1].split(".")[0].replaceAll( ":", "-" );
-//         let filename = `${path.parse(file.originalname).name}_${date}_${time}${path.extname(file.originalname)}`;
-//         callback( null, filename);
-//         file["datetime"] = datetime;
-//     }
-// });
+const diskLocation = multer.diskStorage({
+    destination : ( req, file, callback ) => {
+        callback( null, "public/banners" );
+    },
+    filename : ( req, file, callback ) => {
+        let datetime = new Date().toISOString();
+        let date = datetime.split("T")[0];
+        let time = datetime.split("T")[1].split(".")[0].replaceAll( ":", "-" );
+        let filename = `${path.parse(file.originalname).name}_${date}_${time}${path.extname(file.originalname)}`;
+        callback( null, filename);
+        file["datetime"] = datetime;
+    }
+});
 
 const memoryLocation = multer.memoryStorage();
 
@@ -42,7 +42,7 @@ const gcsUploadHandle = new MulterGoogleCloudStorage({
     })
 
 const upload = multer({
-    storage : memoryLocation
+    storage : diskLocation
 });
 
 module.exports = { upload, bucket };

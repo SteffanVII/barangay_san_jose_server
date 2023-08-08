@@ -1,64 +1,70 @@
 const { db } = require("../mysqlConnect");
 const fs = require("fs");
-const { bucket } = require("../middlewares/uploads");
+const { bucket, upload } = require("../middlewares/uploads");
 const path = require("path");
 
 function uploadBanner( request, response ) {
 
     let data = request.file;
 
-    try {
-        if ( data ) {
+    console.log("test");
 
-            let datetime = new Date().toISOString();
-            let date = datetime.split("T")[0];
-            let time = datetime.split("T")[1].split(".")[0].replaceAll( ":", "-" );
-            let filename = `${path.parse(data.originalname).name}_${date}_${time}${path.extname(data.originalname)}`;
+    // try {
+    //     if ( data ) {
 
-            let blob = bucket.file( filename );
-            let blobstream = blob.createWriteStream({
-                resumable : false
-            });
+    //         let datetime = new Date().toISOString();
+    //         let date = datetime.split("T")[0];
+    //         let time = datetime.split("T")[1].split(".")[0].replaceAll( ":", "-" );
+    //         let filename = `${path.parse(data.originalname).name}_${date}_${time}${path.extname(data.originalname)}`;
 
-            blobstream.on( "finish", () => {
-                response.status(200).json({ message : "OK" });
-                let query = `insert into \`announcements\` ( \`path\`, \`datetime\`, \`filename\` )
-                            values( "${process.env.BANNERS_PATH + filename}",
-                                    '${datetime.replace("T", " ").replace("Z", "")}',
-                                    "${filename}"
-                                )`;
+    //         let blob = bucket.file( filename );
+    //         let blobstream = blob.createWriteStream({
+    //             resumable : false
+    //         });
 
-                db.query( query )
-                    .then( res => {
-                        response.status(200).json({ message : "OK" });
-                    } )
-                    .catch( err => {
-                        console.log(err);
-                        response.status(400).send();
-                    } )
-                    });
+    //         blobstream.on( "finish", () => {
+    //             response.status(200).json({ message : "OK" });
+    //             let query = `insert into \`announcements\` ( \`path\`, \`datetime\`, \`filename\` )
+    //                         values( "${process.env.BANNERS_PATH + filename}",
+    //                                 '${datetime.replace("T", " ").replace("Z", "")}',
+    //                                 "${filename}"
+    //                             )`;
 
-            blobstream.end(data.buffer);
-        }
-    } catch (error) {
-        console.log(error);
-        response.status(400).send();
-    }
+    //             db.query( query )
+    //                 .then( res => {
+    //                     response.status(200).json({ message : "OK" });
+    //                 } )
+    //                 .catch( err => {
+    //                     console.log(err);
+    //                     response.status(400).send();
+    //                 } )
+    //         });
 
-    // let query = `insert into \`announcements\` ( \`path\`, \`datetime\`, \`filename\` )
-    //     values( "${data.path.replaceAll("\\", "/").replace("public/", "")}",
-    //             '${datetime.replace("T", " ").replace("Z", "")}',
-    //             "${data.filename}"
-    //         )`;
+    //         blobstream.end(data.buffer);
+    //     }
+    // } catch (error) {
+    //     console.log(error);
+    //     response.status(400).send();
+    // }
 
-    // db.query( query )
-    //     .then( res => {
-    //         response.status(200).json({ message : "OK" });
-    //     } )
-    //     .catch( err => {
-    //         console.log(err);
-    //         response.status(400).send();
-    //     } )
+    let datetime = new Date().toISOString();
+
+    console.log(process.env.BANNERS_PATH + data.filename);
+
+    let query = `insert into \`announcements\` ( \`path\`, \`datetime\`, \`filename\` )
+        values( "${process.env.BANNERS_PATH + data.filename}",
+                '${datetime.replace("T", " ").replace("Z", "")}',
+                "${data.filename}"
+            )`;
+
+    db.query( query )
+        .then( res => {
+            response.status(200).json({ message : "OK" });
+        } )
+        .catch( err => {
+            console.log(err);
+            response.status(400).send();
+        } )
 }
 
 function getBanners( request, response ) {
